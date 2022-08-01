@@ -18,7 +18,7 @@ class GameButton(ttk.Button):
         self.off = False
 
         self.func2 = function2
-        self.bind('<Button-3>', partial(function2, btn_id=self)) #self.right_click)
+        self.bind('<Button-3>', partial(function2, btn_id=self))
 
     def get_index(self):
         return self.col, self.row
