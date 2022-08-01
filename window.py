@@ -1,5 +1,5 @@
 """Stores Menu and GameWindow Classes"""
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 from functools import partial
 
@@ -88,7 +88,7 @@ class GameWindow(ttk.Frame):
         for i in range(0, self.nheight):
             btn_row = []
             for j in range(0, self.nwidth):
-                btn = GameButton(self.game_frm, i, j, self.check_button)
+                btn = GameButton(self.game_frm, i, j, self.check_button, self.flag_button)
                 btn_row.append(btn)
 
             self.buttons.append(btn_row)
@@ -96,6 +96,7 @@ class GameWindow(ttk.Frame):
         #Make countdown to win game if all safe buttons are pressed/disabled
         #Created as array to pass by reference, easier than manually assigning to.
         self.safe_buttons = [self.nwidth * self.nheight - self.nmines]
+        self.flags = self.nmines
 
     def check_button(self, btn_id):
         """Checks button range"""
@@ -104,12 +105,28 @@ class GameWindow(ttk.Frame):
                 self.nwidth, self.nmines)
         if btn_id.mines:
             #Game over
+            message = "You lose"
+            messagebox.showinfo("Loser", message)
             self.master.destroy()
 
         gl.check_mines(self.buttons, btn_id, self.nheight, self.nwidth, self.safe_buttons)
         self.first_click = False
 
         if self.safe_buttons[0] == 0:
+            message = "You win"
+            messagebox.showinfo("Congrats", message)
             self.master.destroy()
+
+    def flag_button(self, event, btn_id):
+        if btn_id.get_state():
+            return
+        if not btn_id.flagged:
+            btn_id.flagged = True
+            btn_id.config(text = "Flag")
+            self.flags -= 1
+        elif btn_id.flagged:
+            btn_id.flagged = False
+            btn_id.config(text = "")
+            self.flags += 1
 
 

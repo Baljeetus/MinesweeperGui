@@ -1,8 +1,6 @@
 """Stores functions for managaing inner game logic"""
 from random import randint
 
-from tkinter import DISABLED
-
 def add_mines(buttons, btn_id, height, width, nmines):
     """Sets up game by randomly adding mines"""
     col, row = btn_id.get_index()
