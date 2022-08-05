@@ -9,6 +9,7 @@ class Game(Tk):
         """Initialize attributes of game"""
         super().__init__()
         self.title("Minesweeper")
+        self.resizable(width=False, height=False)
 
     def run(self):
         """Start game logic"""
